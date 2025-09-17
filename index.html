@@ -815,6 +815,43 @@
         color: var(--text-strong);
       }
 
+      .measurement-needs {
+        list-style: none;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .measurement-needs li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.75rem;
+        align-items: start;
+        background: var(--surface-alt);
+        border: 1px solid var(--surface-border-subtle);
+        border-radius: 14px;
+        padding: 0.85rem 1rem;
+        font-size: 0.96rem;
+        line-height: 1.6;
+        color: var(--text-tertiary);
+      }
+
+      .measurement-needs li::before {
+        content: "●";
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--accent);
+        margin-top: 0.35rem;
+      }
+
+      .footnote {
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--muted-soft);
+      }
+
       .ablation-grid {
         margin-top: clamp(1.6rem, 3.2vw, 2.3rem);
         display: grid;
@@ -994,16 +1031,16 @@
     <main>
       <section class="hero">
         <span class="eyebrow"
-          >Feasibility Update · Updated
+          >Research Brief · Updated
           <time id="update-timestamp" datetime="">September 2025</time></span
         >
         <h1>Distributed Laser-Level Monitoring for Soil Stabilization</h1>
         <p>
-          Summarizing the latest study on a central 532&nbsp;nm reference beam and remote
-          sensor poles, this brief tracks millimeter-scale ground movement during slurry or
-          soil injection. Ten poles equipped with vertical LDR arrays resolve height changes
-          to 2&nbsp;mm across a 100&nbsp;m work zone while remaining resilient to ambient
-          light and field logistics.
+          Summarizing the research-phase study on a central 532&nbsp;nm reference beam and
+          remote sensor poles, this brief captures the indoor performance we have validated
+          and the outdoor measurement targets still outstanding. The green laser works cleanly
+          under warehouse lighting, but direct sunlight overruns it, so the focus here is on
+          specifying the higher-performance laser system required for daylight operation.
         </p>
         <div class="meta">
           <div class="tags">
@@ -1195,46 +1232,53 @@
       </section>
 
       <section class="panel highlights">
-        <h2>Feasibility Highlights</h2>
+        <h2>Research Status &amp; Performance Targets</h2>
         <p>
-          Bench experiments with the green reference laser, stacked LDR poles, and optical
-          filtering demonstrate that Levitree can monitor settlement during soil or slurry
-          injection with millimeter precision while keeping the signal dominant in full sun.
+          Indoor experiments with the green reference laser, stacked LDR poles, and optical
+          filtering confirm that the architecture can resolve millimeter-scale movement under
+          controlled lighting. Midday sun still saturates the current emitter, so the stats
+          below frame the targets the brighter, narrower laser stack must achieve.
         </p>
         <div class="stat-grid" role="list">
           <article class="stat" role="listitem">
-            <span>Height resolution</span>
+            <span>Target height resolution</span>
             <strong>2&nbsp;mm</strong>
             <p>
-              Spaced LDR ladders register where the laser line lands, giving per-pole ground
-              displacement readings with 2&nbsp;mm granularity after calibration.
+              Warehouse trials with the green laser confirmed 2&nbsp;mm granularity; daylight
+              validation depends on the upgraded emitter matching this benchmark.
             </p>
           </article>
           <article class="stat" role="listitem">
-            <span>Bandpass window</span>
+            <span>Filter bandwidth plan</span>
             <strong>10&nbsp;nm</strong>
             <p>
-              Initial optical stack uses a 10&nbsp;nm FWHM bandpass centered on 532&nbsp;nm,
-              with a 3–5&nbsp;nm upgrade path when ambient spillover becomes critical.
+              Current bench stack uses a 10&nbsp;nm FWHM filter around 532&nbsp;nm, with the
+              daylight-ready system expected to tighten to 3–5&nbsp;nm for better ambient
+              rejection.
             </p>
           </article>
           <article class="stat" role="listitem">
-            <span>Laser modulation</span>
+            <span>Modulation envelope</span>
             <strong>8–12&nbsp;kHz</strong>
             <p>
-              Central driver modulates within this band to dodge mains hum and pairs with
-              lock-in demodulation so ambient frames can be subtracted per cycle.
+              Firmware is set up to sweep within this band so future lock-in tests can prove
+              ambient subtraction under sunlit conditions.
             </p>
           </article>
           <article class="stat" role="listitem">
-            <span>Coverage grid</span>
+            <span>Coverage grid target</span>
             <strong>100&nbsp;m</strong>
             <p>
-              Ten poles distributed around the pit provide angular redundancy across a 100&nbsp;m
-              work zone, keeping injection-induced movement visible from every direction.
+              Ten poles distributed around the pit remain the design objective; upcoming field
+              trials will confirm alignment and redundancy once the brighter laser is
+              installed.
             </p>
           </article>
         </div>
+        <p class="footnote">
+          Values reflect modelling outputs and bench notes; sources remain provisional until
+          the sunlight-qualified laser stack is exercised outdoors.
+        </p>
       </section>
 
       <section class="panel visuals">
@@ -1418,39 +1462,42 @@
       </section>
 
       <section class="panel ablation">
-        <h2>Condition Ablation Report</h2>
+        <h2>Planned Condition Ablation Matrix</h2>
         <p>
-          A 48-hour ablation series varied pole spacing, illumination, and deliberate hardware
-          disturbances to map out the operating envelope before committing to a remediation
-          pilot. Results below isolate how each stressor affects lock-in margin and millimetre
-          accuracy.
+          A planned 48-hour ablation series will vary pole spacing, illumination, and
+          deliberate hardware disturbances once the daylight-capable laser stack is on the
+          bench. The expected responses below highlight the ranges we need to measure before
+          committing to a remediation pilot.
         </p>
         <div class="ablation-grid">
           <article class="ablation-card">
             <h3>Distance envelope</h3>
             <p>
-              Expanding pole spacing from 40&nbsp;m to 90&nbsp;m introduced additional beam
-              divergence and atmospheric shimmer, costing roughly <strong>3&nbsp;dB of SNR per
-              extra 20&nbsp;m</strong>. Beyond 80&nbsp;m the 2&nbsp;mm resolution spec drifts to
-              ±2.4&nbsp;mm unless the aperture is tightened and poles are re-levelled.
+              Modelling indicates expanding pole spacing from 40&nbsp;m to 90&nbsp;m will
+              introduce additional beam divergence and atmospheric shimmer, costing roughly
+              <strong>3&nbsp;dB of SNR per extra 20&nbsp;m</strong>. Beyond 80&nbsp;m the
+              2&nbsp;mm resolution spec is likely to drift to ±2.4&nbsp;mm unless the aperture
+              is tightened and poles are re-levelled.
             </p>
           </article>
           <article class="ablation-card">
             <h3>Ambient illumination</h3>
             <p>
-              Moving between direct sun, LED bay lighting, and twilight proved the layered filter
-              stack: <strong>5&nbsp;nm bandpass + crossed polarizers recovered 18–22&nbsp;dB</strong>
-              of lock-in margin in noon sun, while twilight benefited from reopening the aperture
-              and lengthening integration to preserve signal volume.
+              Moving between direct sun, LED bay lighting, and twilight is expected to prove the
+              layered filter stack: <strong>5&nbsp;nm bandpass + crossed polarizers should
+              recover 18–22&nbsp;dB</strong> of lock-in margin in noon sun, while twilight
+              should benefit from reopening the aperture and lengthening integration to
+              preserve signal volume.
             </p>
           </article>
           <article class="ablation-card">
             <h3>Coupled motion</h3>
             <p>
-              An intentionally unpreferable movement of both emitter and receiver—0.35° hub yaw
-              while a pole swayed ±9&nbsp;mm at 0.8&nbsp;Hz—introduced a temporary
+              Intentionally moving both emitter and receiver—0.35° hub yaw while a pole sways
+              ±9&nbsp;mm at 0.8&nbsp;Hz—is expected to introduce a temporary
               <strong>+4–5&nbsp;mm height bias</strong>. Guying the poles and triggering a rapid
-              firmware re-zero pulled the drift back under ±1.8&nbsp;mm within two sampling cycles.
+              firmware re-zero should pull the drift back under ±1.8&nbsp;mm within two sampling
+              cycles.
             </p>
           </article>
         </div>
@@ -1460,8 +1507,8 @@
               <th scope="col">Scenario</th>
               <th scope="col">Distance</th>
               <th scope="col">Ambient condition</th>
-              <th scope="col">Mean SNR</th>
-              <th scope="col">Height error</th>
+              <th scope="col">Target SNR</th>
+              <th scope="col">Target height error</th>
               <th scope="col">Mitigation notes</th>
             </tr>
           </thead>
@@ -1472,7 +1519,7 @@
               <td>Overcast, 15&nbsp;k&nbsp;lux diffuse skylight</td>
               <td>26&nbsp;dB</td>
               <td>±1.6&nbsp;mm</td>
-              <td>10&nbsp;nm filter, single polarizer, static mounts.</td>
+              <td>Plan to validate with 10&nbsp;nm filter, single polarizer, static mounts.</td>
             </tr>
             <tr>
               <td><strong>Distance push</strong></td>
@@ -1480,7 +1527,7 @@
               <td>Overcast, 15&nbsp;k&nbsp;lux diffuse skylight</td>
               <td>18&nbsp;dB</td>
               <td>±2.4&nbsp;mm</td>
-              <td>Narrower aperture and re-levelled poles restored lock-in headroom.</td>
+              <td>Expect narrower aperture and re-levelled poles to restore lock-in headroom.</td>
             </tr>
             <tr>
               <td><strong>Noon sun rejection</strong></td>
@@ -1488,7 +1535,8 @@
               <td>Direct sun, 88&nbsp;k&nbsp;lux</td>
               <td>17&nbsp;dB</td>
               <td>±2.5&nbsp;mm</td>
-              <td>5&nbsp;nm bandpass plus crossed polarizers delivered 20&nbsp;dB ambient suppression.</td>
+              <td>Plan for 5&nbsp;nm bandpass plus crossed polarizers to deliver 20&nbsp;dB ambient
+              suppression.</td>
             </tr>
             <tr>
               <td><strong>Indoor fixture</strong></td>
@@ -1496,7 +1544,8 @@
               <td>LED bay fixture, 600&nbsp;lux</td>
               <td>28&nbsp;dB</td>
               <td>±1.2&nbsp;mm</td>
-              <td>Single polarizer sufficient; lock-in margin exceeded 10&nbsp;dB.</td>
+              <td>Anticipate single polarizer to remain sufficient; lock-in margin should exceed
+              10&nbsp;dB.</td>
             </tr>
             <tr>
               <td><strong>Twilight survey</strong></td>
@@ -1504,7 +1553,8 @@
               <td>Twilight, 3&nbsp;k&nbsp;lux horizon glow</td>
               <td>23&nbsp;dB</td>
               <td>±1.7&nbsp;mm</td>
-              <td>Longer integration and 10&nbsp;nm filter balanced signal intake with noise.</td>
+              <td>Longer integration and 10&nbsp;nm filter are expected to balance signal intake with
+              noise.</td>
             </tr>
             <tr>
               <td><strong>Emitter &amp; receiver drift</strong></td>
@@ -1512,26 +1562,51 @@
               <td>Low sun with gusts, 45&nbsp;k&nbsp;lux</td>
               <td>14&nbsp;dB</td>
               <td>±3.2&nbsp;mm (+4.5&nbsp;mm bias)</td>
-              <td>Unpreferable co-movement damped by guy wires; rapid re-zero cleared bias in &lt;2 cycles.</td>
+              <td>Unpreferable co-movement should be damped by guy wires; a rapid re-zero is expected to
+              clear bias in &lt;2 cycles.</td>
             </tr>
           </tbody>
         </table>
+        <p class="footnote">
+          Table values are targets derived from modelling and earlier indoor runs; they will
+          be replaced with sourced field data once the upgraded laser completes daylight
+          testing.
+        </p>
       </section>
 
       <section class="panel field-data">
-        <h2>Bench &amp; Field Measurements</h2>
+        <h2>Bench &amp; Field Measurement Plan</h2>
         <p>
-          Early testing combined indoor calibration with short outdoor deployments to
-          understand how optical filtering, modulation, and baffling behave under different
-          lighting loads. Key observations are summarised below.
+          Preliminary indoor testing plus modelling outline what the instrumentation must
+          deliver; the upcoming bench and outdoor campaigns will log the values below once the
+          daylight-ready laser stack is in place.
         </p>
+        <ul class="measurement-needs">
+          <li>
+            <strong>Laser output &amp; beam profile:</strong> Capture optical power,
+            divergence, and stability as the upgraded source warms and cools in the field.
+          </li>
+          <li>
+            <strong>Ambient illuminance &amp; polarization ratio:</strong> Measure lux
+            levels, glare angles, and polarization contrast across midday sun, overcast, and
+            twilight scenes.
+          </li>
+          <li>
+            <strong>Lock-in SNR versus distance:</strong> Record demodulated SNR at
+            20–90&nbsp;m increments while sweeping modulation settings.
+          </li>
+          <li>
+            <strong>Detector linearity &amp; saturation margins:</strong> Verify the LDR
+            ladder response, offset drift, and recovery when the new laser gates on and off.
+          </li>
+        </ul>
         <table class="data-table">
           <thead>
             <tr>
               <th scope="col">Test scenario</th>
               <th scope="col">Optical stack</th>
               <th scope="col">Ambient condition</th>
-              <th scope="col">Measured SNR</th>
+              <th scope="col">Target SNR</th>
               <th scope="col">Observations</th>
             </tr>
           </thead>
@@ -1541,31 +1616,39 @@
               <td>10&nbsp;nm bandpass · single polarizer · baffled tube</td>
               <td>300&nbsp;lux indoor lighting</td>
               <td>32&nbsp;dB</td>
-              <td>Baseline calibration confirmed 2&nbsp;mm resolution and verified LDR linearity.</td>
+              <td>Plan to confirm 2&nbsp;mm resolution and verify LDR linearity under controlled
+              lighting.</td>
             </tr>
             <tr>
               <td><strong>Midday open field</strong></td>
               <td>5&nbsp;nm bandpass · cross polarizers · baffled tube</td>
               <td>82&nbsp;k&nbsp;lux direct sun</td>
               <td>18&nbsp;dB</td>
-              <td>Lock-in demodulation essential; ambient-only frames subtracted every 0.5&nbsp;ms.</td>
+              <td>Lock-in demodulation must subtract ambient frames every 0.5&nbsp;ms to protect
+              margin with the upgraded emitter.</td>
             </tr>
             <tr>
               <td><strong>Overcast lot</strong></td>
               <td>10&nbsp;nm bandpass · single polarizer · short aperture</td>
               <td>15&nbsp;k&nbsp;lux diffuse skylight</td>
               <td>24&nbsp;dB</td>
-              <td>Ambient rejection sufficient with minimal baffling; poles tracked ±3&nbsp;mm motion.</td>
+              <td>Ambient rejection is expected to remain sufficient with minimal baffling, tracking
+              ±3&nbsp;mm motion.</td>
             </tr>
             <tr>
               <td><strong>Sunset alignment</strong></td>
               <td>10&nbsp;nm bandpass · single polarizer · lock-in @10&nbsp;kHz</td>
               <td>Low-angle glare, 9&nbsp;k&nbsp;lux</td>
               <td>21&nbsp;dB</td>
-              <td>Cross-check validated hub timing; glare spikes mitigated by tightening aperture stop.</td>
+              <td>Cross-check should validate hub timing; glare spikes to be mitigated by tightening
+              the aperture stop.</td>
             </tr>
           </tbody>
         </table>
+        <p class="footnote">
+          Target values originate from internal modelling and prior warehouse data; they will
+          be replaced with documented measurements as the research campaign progresses.
+        </p>
       </section>
 
       <section class="panel methodology">
