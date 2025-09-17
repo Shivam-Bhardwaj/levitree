@@ -501,6 +501,15 @@
         transition: opacity 180ms ease, transform 180ms ease;
       }
 
+      :root[data-theme="light"] .chart-detail {
+        background: linear-gradient(
+          135deg,
+          rgba(248, 250, 252, 0.95),
+          rgba(226, 232, 240, 0.97)
+        );
+        color: var(--text-primary);
+      }
+
       .chart-detail h4 {
         margin: 0;
         font-size: 1rem;
@@ -511,6 +520,10 @@
       .chart-detail p {
         margin: 0;
         color: var(--text-soft);
+      }
+
+      :root[data-theme="light"] .chart-detail p {
+        color: var(--text-secondary);
       }
 
       .chart:hover .chart-detail,
