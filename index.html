@@ -597,6 +597,23 @@
         line-height: 1.6;
       }
 
+      .bom-table thead th.numeric,
+      .bom-table tbody td.numeric {
+        text-align: right;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .bom-table thead th.qty,
+      .bom-table tbody td.qty {
+        min-width: clamp(3.25rem, 8vw, 4rem);
+      }
+
+      .bom-table thead th.cost,
+      .bom-table tbody td.cost {
+        min-width: clamp(5.75rem, 15vw, 7.5rem);
+      }
+
       .bom-table tbody tr:first-child td {
         border-top: none;
       }
@@ -1681,8 +1698,9 @@
                     <tr>
                       <th scope="col">Part number</th>
                       <th scope="col">Description</th>
-                      <th scope="col">Qty</th>
+                      <th scope="col" class="numeric qty">Qty</th>
                       <th scope="col">Tolerance / Rating</th>
+                      <th scope="col" class="numeric cost">Cost</th>
                       <th scope="col">Vendor reference</th>
                     </tr>
                   </thead>
@@ -1690,43 +1708,49 @@
                     <tr>
                       <td>LRS-0532-100</td>
                       <td>100&nbsp;mW 532&nbsp;nm DPSS laser head with FC/APC coupler</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>&plusmn;1&nbsp;nm wavelength, &le;2% power ripple</td>
+                      <td class="numeric cost">$1,250</td>
                       <td><a href="https://www.laserglow.com/product/LRS-0532" target="_blank" rel="noreferrer">LaserGlow</a></td>
                     </tr>
                     <tr>
                       <td>OEM-TTL-LSR</td>
                       <td>0–5&nbsp;V TTL laser driver mezzanine</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>12&nbsp;kHz modulation bandwidth</td>
+                      <td class="numeric cost">$210</td>
                       <td><a href="https://www.laserglow.com/product/OEM-TTL" target="_blank" rel="noreferrer">LaserGlow</a></td>
                     </tr>
                     <tr>
                       <td>TED200C</td>
                       <td>TEC controller for DPSS head</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±0.01&nbsp;°C stability @ 2&nbsp;A</td>
+                      <td class="numeric cost">$1,600</td>
                       <td><a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9" target="_blank" rel="noreferrer">Thorlabs</a></td>
                     </tr>
                     <tr>
                       <td>RAC20-24SK/277</td>
                       <td>24&nbsp;V/20&nbsp;W AC/DC module with MOV surge clamp</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±2% regulation, 4&nbsp;kV isolation</td>
+                      <td class="numeric cost">$38</td>
                       <td><a href="https://recom-power.com/en/products/ac-dc/rac20-ks.html" target="_blank" rel="noreferrer">RECOM</a></td>
                     </tr>
                     <tr>
                       <td>R-78E5.0-0.5</td>
                       <td>5&nbsp;V buck regulator for logic rail</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±3% output, 500&nbsp;mA</td>
+                      <td class="numeric cost">$8</td>
                       <td><a href="https://recom-power.com/en/products/dc-dc/r-78e.html" target="_blank" rel="noreferrer">RECOM</a></td>
                     </tr>
                     <tr>
                       <td>OMRON D40A-3</td>
                       <td>Non-contact safety interlock switch set</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>PLe / SIL3 rated, 24&nbsp;V loop</td>
+                      <td class="numeric cost">$120</td>
                       <td><a href="https://automation.omron.com/en/us/products/d40a" target="_blank" rel="noreferrer">Omron</a></td>
                     </tr>
                   </tbody>
@@ -1844,8 +1868,9 @@
                     <tr>
                       <th scope="col">Part number</th>
                       <th scope="col">Description</th>
-                      <th scope="col">Qty</th>
+                      <th scope="col" class="numeric qty">Qty</th>
                       <th scope="col">Tolerance / Rating</th>
+                      <th scope="col" class="numeric cost">Cost</th>
                       <th scope="col">Vendor reference</th>
                     </tr>
                   </thead>
@@ -1853,57 +1878,65 @@
                     <tr>
                       <td>FBH532-10</td>
                       <td>532&nbsp;nm bandpass filter, 10&nbsp;nm FWHM, Ø25&nbsp;mm</td>
-                      <td>4</td>
+                      <td class="numeric qty">4</td>
                       <td>±0.5&nbsp;nm center, &gt;OD4 blocking</td>
+                      <td class="numeric cost">$185</td>
                       <td><a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=FBH532-10" target="_blank" rel="noreferrer">Thorlabs</a></td>
                     </tr>
                     <tr>
                       <td>WP25M-UB</td>
                       <td>Wire-grid polarizer, 400–700&nbsp;nm, Ø25&nbsp;mm</td>
-                      <td>4</td>
+                      <td class="numeric qty">4</td>
                       <td>&gt;1000:1 extinction ratio</td>
+                      <td class="numeric cost">$320</td>
                       <td><a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=WP25M-UB" target="_blank" rel="noreferrer">Thorlabs</a></td>
                     </tr>
                     <tr>
                       <td>SM1D12C</td>
                       <td>SM1-threaded iris diaphragm, 0.8–12&nbsp;mm aperture</td>
-                      <td>4</td>
+                      <td class="numeric qty">4</td>
                       <td>Graduated to 0.2&nbsp;mm</td>
+                      <td class="numeric cost">$95</td>
                       <td><a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=SM1D12C" target="_blank" rel="noreferrer">Thorlabs</a></td>
                     </tr>
                     <tr>
                       <td>S1227-33BR</td>
                       <td>Large-area silicon photodiode, 5.8&nbsp;nA dark current</td>
-                      <td>16 per pole</td>
+                      <td class="numeric qty">16 per pole</td>
                       <td>Responsivity 0.27&nbsp;A/W @ 532&nbsp;nm</td>
+                      <td class="numeric cost">$42</td>
                       <td><a href="https://www.hamamatsu.com/us/en/product/optical-sensors/photodiodes/si-photodiode/large-active-area-type/s1227-33br.html" target="_blank" rel="noreferrer">Hamamatsu</a></td>
                     </tr>
                     <tr>
                       <td>AD8616ARZ</td>
                       <td>Dual 24&nbsp;MHz rail-to-rail op-amp for TIA</td>
-                      <td>8 per pole</td>
+                      <td class="numeric qty">8 per pole</td>
                       <td>±0.2&nbsp;mV offset, 2.7–5.5&nbsp;V</td>
+                      <td class="numeric cost">$2.40</td>
                       <td><a href="https://www.analog.com/en/products/ad8616.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
                     </tr>
                     <tr>
                       <td>AD7609BSTZ</td>
                       <td>8-ch simultaneous-sampling 18-bit ADC</td>
-                      <td>1 per pole</td>
+                      <td class="numeric qty">1 per pole</td>
                       <td>±10&nbsp;V input, 200&nbsp;kS/s aggregate</td>
+                      <td class="numeric cost">$145</td>
                       <td><a href="https://www.analog.com/en/products/ad7609.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
                     </tr>
                     <tr>
                       <td>MAX1487ESA+</td>
                       <td>Low-power RS-485/RS-422 transceiver</td>
-                      <td>1 per pole</td>
+                      <td class="numeric qty">1 per pole</td>
                       <td>±15&nbsp;kV IEC 61000-4-2 ESD</td>
+                      <td class="numeric cost">$1.10</td>
                       <td><a href="https://www.analog.com/en/products/max1487.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
                     </tr>
                     <tr>
                       <td>R-78C9.0-1.0</td>
                       <td>24&nbsp;V to 9&nbsp;V switching regulator</td>
-                      <td>1 per pole</td>
+                      <td class="numeric qty">1 per pole</td>
                       <td>±3% output, 1&nbsp;A</td>
+                      <td class="numeric cost">$18</td>
                       <td><a href="https://recom-power.com/en/products/dc-dc/r-78c.html" target="_blank" rel="noreferrer">RECOM</a></td>
                     </tr>
                   </tbody>
@@ -2012,8 +2045,9 @@
                     <tr>
                       <th scope="col">Part number</th>
                       <th scope="col">Description</th>
-                      <th scope="col">Qty</th>
+                      <th scope="col" class="numeric qty">Qty</th>
                       <th scope="col">Tolerance / Rating</th>
+                      <th scope="col" class="numeric cost">Cost</th>
                       <th scope="col">Vendor reference</th>
                     </tr>
                   </thead>
@@ -2021,57 +2055,65 @@
                     <tr>
                       <td>NUCLEO-F405RG</td>
                       <td>STM32F405 development board for hub control</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>168&nbsp;MHz MCU, 1&nbsp;MB flash</td>
+                      <td class="numeric cost">$27</td>
                       <td><a href="https://www.st.com/en/evaluation-tools/nucleo-f405rg.html" target="_blank" rel="noreferrer">STMicroelectronics</a></td>
                     </tr>
                     <tr>
                       <td>AD7609BSTZ-6U</td>
                       <td>Dual stacked 8-ch ADC mezzanine (custom carrier)</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>18-bit simultaneous sampling</td>
+                      <td class="numeric cost">$290</td>
                       <td><a href="https://www.analog.com/en/products/ad7609.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
                     </tr>
                     <tr>
                       <td>NEO-M9N-00B</td>
                       <td>GNSS receiver with 1PPS output</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±15&nbsp;ns 1PPS, L1/L5 bands</td>
+                      <td class="numeric cost">$60</td>
                       <td><a href="https://www.u-blox.com/en/product/neo-m9n-module" target="_blank" rel="noreferrer">u-blox</a></td>
                     </tr>
                     <tr>
                       <td>PL602-10M</td>
                       <td>10&nbsp;MHz OCXO with LVPECL fan-out</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±0.2&nbsp;ppm, -40&nbsp;°C to 85&nbsp;°C</td>
+                      <td class="numeric cost">$220</td>
                       <td><a href="https://www.ndk.com/en/products/search/ocxo/1184249_1444.html" target="_blank" rel="noreferrer">NDK</a></td>
                     </tr>
                     <tr>
                       <td>TM4C-RS485-HUB</td>
                       <td>4-port isolated RS-485 backplane</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±2.5&nbsp;kV isolation, 1&nbsp;Mbps</td>
+                      <td class="numeric cost">$180</td>
                       <td><a href="https://www.digikey.com/en/products/detail/texas-instruments/ISO3088DW/1713289" target="_blank" rel="noreferrer">DigiKey</a></td>
                     </tr>
                     <tr>
                       <td>IKVM-24V150W</td>
                       <td>24&nbsp;V 150&nbsp;W DIN-rail PSU with redundancy OR-ing</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>±1% regulation, 94% efficiency</td>
+                      <td class="numeric cost">$120</td>
                       <td><a href="https://www.meanwell.com/productPdf.aspx?i=521" target="_blank" rel="noreferrer">MEAN&nbsp;WELL</a></td>
                     </tr>
                     <tr>
                       <td>GS305</td>
                       <td>5-port Gigabit switch for telemetry uplink</td>
-                      <td>1</td>
+                      <td class="numeric qty">1</td>
                       <td>802.3az energy efficient Ethernet</td>
+                      <td class="numeric cost">$35</td>
                       <td><a href="https://www.netgear.com/business/wired/switches/unmanaged/gs305/" target="_blank" rel="noreferrer">Netgear</a></td>
                     </tr>
                     <tr>
                       <td>Belden 3106A</td>
                       <td>Shielded twisted pair for RS-485 trunk</td>
-                      <td>100&nbsp;m</td>
+                      <td class="numeric qty">100&nbsp;m</td>
                       <td>24&nbsp;AWG, 120&nbsp;Ω ±10%</td>
+                      <td class="numeric cost">$160</td>
                       <td><a href="https://www.belden.com/products/3106A" target="_blank" rel="noreferrer">Belden</a></td>
                     </tr>
                   </tbody>
