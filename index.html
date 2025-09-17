@@ -901,7 +901,10 @@
     </button>
     <main>
       <section class="hero">
-        <span class="eyebrow">Feasibility Update · Updated September 2025</span>
+        <span class="eyebrow"
+          >Feasibility Update · Updated
+          <time id="update-timestamp" datetime="">September 2025</time></span
+        >
         <h1>Distributed Laser-Level Monitoring for Soil Stabilization</h1>
         <p>
           Summarizing the latest study on a central 532&nbsp;nm reference beam and remote
@@ -1815,6 +1818,30 @@
         </ul>
       </section>
     </main>
+
+    <script>
+      (function () {
+        const timestampEl = document.getElementById("update-timestamp");
+        if (!timestampEl) return;
+
+        const modified = new Date(document.lastModified);
+        if (Number.isNaN(modified.getTime())) return;
+
+        const formatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: "UTC",
+          year: "numeric",
+          month: "long",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          timeZoneName: "short",
+        });
+
+        timestampEl.textContent = formatter.format(modified);
+        timestampEl.dateTime = modified.toISOString();
+      })();
+    </script>
 
     <footer>
       <p>
