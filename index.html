@@ -558,12 +558,16 @@
         height: 12px;
       }
 
-      .bom-grid {
+      .bom-subsections {
         margin-top: clamp(1.75rem, 3.5vw, 2.3rem);
         display: grid;
+        gap: clamp(2rem, 4vw, 2.75rem);
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .bom-subsystem {
+        display: grid;
         gap: clamp(1.4rem, 3vw, 2rem);
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        align-items: start;
       }
 
       .bom-table-wrapper {
@@ -607,6 +611,7 @@
       }
 
       .bom-specs {
+        margin-top: clamp(2.4rem, 4.5vw, 3.2rem);
         display: grid;
         gap: clamp(1.1rem, 2.5vw, 1.6rem);
       }
@@ -651,6 +656,7 @@
         border: 1px solid var(--surface-border-subtle);
         border-radius: 20px;
         padding: clamp(1.2rem, 2.5vw, 1.8rem);
+        width: 100%;
         display: grid;
         gap: 0.85rem;
       }
@@ -1575,9 +1581,8 @@
           a cross-check that the subsystem-level wiring and timing still land in the same system
           topology.
         </p>
-        <div class="bom-grid">
-          <div class="bom-subsections">
-            <article class="bom-subsystem" id="bom-transmitter">
+        <div class="bom-subsections">
+          <article class="bom-subsystem" id="bom-transmitter">
               <h3>Transmitter: Laser Emission &amp; Conditioning</h3>
               <p>
                 The transmitter package gates the 532&nbsp;nm DPSS laser, stabilizes its thermal load,
@@ -1733,7 +1738,7 @@
                 </table>
               </div>
             </article>
-            <article class="bom-subsystem" id="bom-receiver">
+          <article class="bom-subsystem" id="bom-receiver">
               <h3>Receiver: Sensor Pole Optics &amp; Front-End</h3>
               <p>
                 Each pole combines optical rejection, synchronous detection, and balanced data
@@ -1909,8 +1914,8 @@
                   </tbody>
                 </table>
               </div>
-            </article>
-            <article class="bom-subsystem" id="bom-communications">
+          </article>
+          <article class="bom-subsystem" id="bom-communications">
               <h3>Communication &amp; Timing Backbone</h3>
               <p>
                 The communication layer maintains synchronous modulation, collects demodulated
@@ -2077,11 +2082,11 @@
                   </tbody>
                 </table>
               </div>
-            </article>
-          </div>
-          <div class="bom-specs">
-            <article>
-              <h3>Communication Protocols</h3>
+          </article>
+        </div>
+        <div class="bom-specs">
+          <article>
+            <h3>Communication Protocols</h3>
               <p>
                 Refer to Figure&nbsp;C.1 for the physical topology behind these links and to the
                 communication BOM above for the exact hardware to terminate each span.
@@ -2102,9 +2107,9 @@
                   for remote observers.
                 </li>
               </ul>
-            </article>
-            <article>
-              <h3>Power Budget</h3>
+          </article>
+          <article>
+            <h3>Power Budget</h3>
               <p>
                 The minimal kit runs from a single 24&nbsp;V&nbsp;DC source or field battery pack. Power
                 entry, conditioning, and regulation stages are depicted in Figures&nbsp;T.1, R.1, and
@@ -2119,9 +2124,9 @@
                 <strong>Total draw:</strong> ~17.6&nbsp;W continuous for four poles; reserve 25&nbsp;W to
                 cover laser startup and environmental overhead.
               </p>
-            </article>
-            <article>
-              <h3>Clock &amp; Timing Sources</h3>
+          </article>
+          <article>
+            <h3>Clock &amp; Timing Sources</h3>
               <p>
                 Figure&nbsp;C.1 also annotates the GNSS timing fan-out so installers can trace the 1PPS
                 and 10&nbsp;MHz discipline points alongside the communication BOM part numbers.
@@ -2131,8 +2136,7 @@
                 <li><strong>ADC sampling:</strong> 200&nbsp;kS/s aggregate per pole, performing four-phase synchronous demodulation into 24-bit accumulators.</li>
                 <li><strong>1PPS disciplining:</strong> GNSS 1PPS and 10&nbsp;MHz VCXO hold modulation jitter below 80&nbsp;ns and frequency error below ±2&nbsp;ppm.</li>
               </ul>
-            </article>
-          </div>
+          </article>
         </div>
         <figure class="schematic">
           <svg viewBox="0 0 780 300" role="img" aria-labelledby="schematic-title">
