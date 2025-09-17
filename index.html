@@ -1552,81 +1552,527 @@
         <p>
           A four-pole starter kit keeps the Levitree architecture lean while preserving the
           optical filtering, synchronous detection, and telemetry paths proven in feasibility
-          testing. The components below cover the light source, sensing nodes, timing, and
-          infrastructure required to stage a daylight-capable pilot.
+          testing. The following transmitter, receiver, and communication subsections pair
+          subsystem schematics with procurement-ready bills so a field team can source every
+          assembly without guesswork.
+        </p>
+        <p>
+          Each figure calls out power rails, signal directions, and safety interfaces referenced in
+          the accompanying tables. The existing overview diagram later in this section now serves as
+          a cross-check that the subsystem-level wiring and timing still land in the same system
+          topology.
         </p>
         <div class="bom-grid">
-          <div class="bom-table-wrapper">
-            <table class="bom-table">
-              <thead>
-                <tr>
-                  <th scope="col">Subsystem</th>
-                  <th scope="col">Example component</th>
-                  <th scope="col">Qty</th>
-                  <th scope="col">Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Control &amp; processing hub</td>
-                  <td>
-                    <strong>STM32F405 Nucleo-64</strong> on a carrier with dual AD7609 16-bit ADCs
-                    and isolated RS-485 interface
-                  </td>
-                  <td>1</td>
-                  <td>Runs modulation control, lock-in demodulation, and packages telemetry for Ethernet MQTT uplink.</td>
-                </tr>
-                <tr>
-                  <td>Laser emission assembly</td>
-                  <td>
-                    <strong>532&nbsp;nm 80–100&nbsp;mW DPSS module</strong> with TTL driver (e.g.,
-                    LaserGlow LRS-0532 + OEM-TTL driver)
-                  </td>
-                  <td>1</td>
-                  <td>Provides the green reference beam with 0–5&nbsp;V gating up to 12&nbsp;kHz and integrated TEC cooling.</td>
-                </tr>
-                <tr>
-                  <td>Per-pole optical stack</td>
-                  <td>
-                    <strong>10&nbsp;nm 532&nbsp;nm bandpass filter</strong> + wire-grid polarizer +
-                    adjustable iris (Thorlabs FBH532-10, WP25M-UB, SM1D12C set)
-                  </td>
-                  <td>4 kits</td>
-                  <td>Threads into each pole enclosure ahead of the sensor ladder to maintain ambient rejection.</td>
-                </tr>
-                <tr>
-                  <td>Sensor pole electronics</td>
-                  <td>
-                    <strong>16-tap LDR ladder PCB</strong> with AD8616 TIA, MAX1487 RS-485 node, and
-                    keyed service connectors
-                  </td>
-                  <td>4</td>
-                  <td>Captures vertical displacement, performs on-node ON/OFF averaging, and streams digitized frames to the hub.</td>
-                </tr>
-                <tr>
-                  <td>Timing reference</td>
-                  <td>
-                    <strong>u-blox NEO-M9N GNSS receiver</strong> with buffered 1PPS and 10&nbsp;MHz
-                    VCXO disciplining board
-                  </td>
-                  <td>1</td>
-                  <td>Holds modulation frequency within ±2&nbsp;ppm and distributes phase markers to every pole.</td>
-                </tr>
-                <tr>
-                  <td>Power &amp; cabling kit</td>
-                  <td>
-                    <strong>24&nbsp;V&nbsp;DC 150&nbsp;W supply</strong>, 5&nbsp;V/3.3&nbsp;V buck modules,
-                    and 18&nbsp;AWG shielded power/RS-485 trunk lines
-                  </td>
-                  <td>1 set</td>
-                  <td>Feeds the laser, hub, and poles with surge suppression and keyed connectors for field swaps.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="bom-subsections">
+            <article class="bom-subsystem" id="bom-transmitter">
+              <h3>Transmitter: Laser Emission &amp; Conditioning</h3>
+              <p>
+                The transmitter package gates the 532&nbsp;nm DPSS laser, stabilizes its thermal load,
+                and enforces safety interlocks before the beam enters the pole optics. The schematic
+                in Figure&nbsp;T.1 annotates the TTL control path from the hub, the 24&nbsp;V and 5&nbsp;V
+                power domains, and the keyed fiber feedthrough that aligns with the receiver stacks.
+              </p>
+              <figure class="schematic" aria-labelledby="schematic-title-transmitter">
+                <svg viewBox="0 0 820 320" role="img" aria-labelledby="schematic-title-transmitter schematic-desc-transmitter">
+                  <title id="schematic-title-transmitter">Transmitter subsystem schematic</title>
+                  <desc id="schematic-desc-transmitter">
+                    Diagram showing 24 volt input power passing through a surge suppressor to a TEC
+                    controller and DPSS laser driver, TTL gating from the hub microcontroller into
+                    the laser driver, interlock loop monitoring an enclosure switch, and the
+                    conditioned beam leaving through a keyed fiber coupler toward the receiver
+                    assemblies.
+                  </desc>
+                  <g fill="#0f172a" stroke="#38bdf8" stroke-width="2">
+                    <rect x="30" y="60" width="160" height="90" rx="14" ry="14" />
+                    <rect x="220" y="40" width="170" height="110" rx="14" ry="14" />
+                    <rect x="220" y="180" width="170" height="100" rx="14" ry="14" />
+                    <rect x="420" y="60" width="160" height="90" rx="14" ry="14" />
+                    <rect x="420" y="190" width="160" height="90" rx="14" ry="14" />
+                    <rect x="610" y="110" width="170" height="120" rx="14" ry="14" />
+                  </g>
+                  <g fill="#e2e8f0" font-family="Inter, 'Segoe UI', sans-serif" font-size="14">
+                    <text text-anchor="middle">
+                      <tspan x="110" y="98">24&nbsp;V&nbsp;DC</tspan>
+                      <tspan x="110" y="116">Input + MOV</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="305" y="78">Isolated</tspan>
+                      <tspan x="305" y="96">DC/DC &amp;</tspan>
+                      <tspan x="305" y="114">5&nbsp;V Buck</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="305" y="216">Interlock</tspan>
+                      <tspan x="305" y="234">Loop Monitor</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="500" y="98">TEC Controller</tspan>
+                      <tspan x="500" y="116">&amp; Thermistor</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="500" y="226">TTL Laser</tspan>
+                      <tspan x="500" y="244">Driver</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="695" y="156">DPSS Laser Head</tspan>
+                      <tspan x="695" y="174">+ Beam Shaping</tspan>
+                      <tspan x="695" y="192">Fiber Coupler</tspan>
+                    </text>
+                  </g>
+                  <g stroke="#38bdf8" stroke-width="2" stroke-linecap="round" fill="none">
+                    <path d="M190 105H220" />
+                    <path d="M390 95H420" />
+                    <path d="M390 230H420" />
+                    <path d="M580 155H610" />
+                    <path d="M580 230Q600 230 610 215" />
+                    <path d="M390 215C400 215 400 170 420 170" />
+                    <path d="M110 150V200H220" />
+                    <path d="M110 60V40H305V40" />
+                    <path d="M500 150V190" />
+                    <path d="M500 60V40H610V40V110" />
+                  </g>
+                  <g fill="#94a3b8" font-family="Inter, 'Segoe UI', sans-serif" font-size="12">
+                    <text text-anchor="middle">
+                      <tspan x="150" y="52">Surge / E-stop feed</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="360" y="128">5&nbsp;V rail</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="500" y="176">NTC feedback</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="360" y="206">Keyed door loop</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="695" y="226">FC/APC jumper to poles</tspan>
+                    </text>
+                  </g>
+                  <g fill="#38bdf8" stroke="#0f172a" stroke-width="1.5">
+                    <circle cx="220" cy="105" r="4" />
+                    <circle cx="420" cy="95" r="4" />
+                    <circle cx="420" cy="230" r="4" />
+                    <circle cx="610" cy="155" r="4" />
+                    <circle cx="610" cy="215" r="4" />
+                    <circle cx="220" cy="200" r="4" />
+                  </g>
+                </svg>
+                <figcaption>
+                  Figure&nbsp;T.1 — Signal and power flow for the laser assembly including interlocks,
+                  TEC management, and the fiber-coupled output that feeds the poles.
+                </figcaption>
+              </figure>
+              <div class="bom-table-wrapper">
+                <table class="bom-table" aria-describedby="schematic-desc-transmitter">
+                  <caption>Transmitter subsystem BOM</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Part number</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Tolerance / Rating</th>
+                      <th scope="col">Vendor reference</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>LRS-0532-100</td>
+                      <td>100&nbsp;mW 532&nbsp;nm DPSS laser head with FC/APC coupler</td>
+                      <td>1</td>
+                      <td>&plusmn;1&nbsp;nm wavelength, &le;2% power ripple</td>
+                      <td><a href="https://www.laserglow.com/product/LRS-0532" target="_blank" rel="noreferrer">LaserGlow</a></td>
+                    </tr>
+                    <tr>
+                      <td>OEM-TTL-LSR</td>
+                      <td>0–5&nbsp;V TTL laser driver mezzanine</td>
+                      <td>1</td>
+                      <td>12&nbsp;kHz modulation bandwidth</td>
+                      <td><a href="https://www.laserglow.com/product/OEM-TTL" target="_blank" rel="noreferrer">LaserGlow</a></td>
+                    </tr>
+                    <tr>
+                      <td>TED200C</td>
+                      <td>TEC controller for DPSS head</td>
+                      <td>1</td>
+                      <td>±0.01&nbsp;°C stability @ 2&nbsp;A</td>
+                      <td><a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9" target="_blank" rel="noreferrer">Thorlabs</a></td>
+                    </tr>
+                    <tr>
+                      <td>RAC20-24SK/277</td>
+                      <td>24&nbsp;V/20&nbsp;W AC/DC module with MOV surge clamp</td>
+                      <td>1</td>
+                      <td>±2% regulation, 4&nbsp;kV isolation</td>
+                      <td><a href="https://recom-power.com/en/products/ac-dc/rac20-ks.html" target="_blank" rel="noreferrer">RECOM</a></td>
+                    </tr>
+                    <tr>
+                      <td>R-78E5.0-0.5</td>
+                      <td>5&nbsp;V buck regulator for logic rail</td>
+                      <td>1</td>
+                      <td>±3% output, 500&nbsp;mA</td>
+                      <td><a href="https://recom-power.com/en/products/dc-dc/r-78e.html" target="_blank" rel="noreferrer">RECOM</a></td>
+                    </tr>
+                    <tr>
+                      <td>OMRON D40A-3</td>
+                      <td>Non-contact safety interlock switch set</td>
+                      <td>1</td>
+                      <td>PLe / SIL3 rated, 24&nbsp;V loop</td>
+                      <td><a href="https://automation.omron.com/en/us/products/d40a" target="_blank" rel="noreferrer">Omron</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+            <article class="bom-subsystem" id="bom-receiver">
+              <h3>Receiver: Sensor Pole Optics &amp; Front-End</h3>
+              <p>
+                Each pole combines optical rejection, synchronous detection, and balanced data
+                transport back to the hub. Figure&nbsp;R.1 shows the beam path through the bandpass,
+                polarizer, and iris into a photodiode ladder with per-tap transimpedance stages and a
+                low-noise ADC mezzanine.
+              </p>
+              <figure class="schematic" aria-labelledby="schematic-title-receiver">
+                <svg viewBox="0 0 820 340" role="img" aria-labelledby="schematic-title-receiver schematic-desc-receiver">
+                  <title id="schematic-title-receiver">Receiver subsystem schematic</title>
+                  <desc id="schematic-desc-receiver">
+                    Diagram illustrating the optical stack leading to photodiodes, transimpedance
+                    amplifiers, an analog anti-alias filter, simultaneous-sampling ADC, RS-485
+                    transceiver, and power regulation for the sensor pole electronics.
+                  </desc>
+                  <g fill="#0f172a" stroke="#38bdf8" stroke-width="2">
+                    <rect x="40" y="130" width="120" height="80" rx="14" ry="14" />
+                    <rect x="190" y="110" width="130" height="120" rx="14" ry="14" />
+                    <rect x="350" y="60" width="150" height="100" rx="14" ry="14" />
+                    <rect x="350" y="190" width="150" height="110" rx="14" ry="14" />
+                    <rect x="530" y="110" width="130" height="120" rx="14" ry="14" />
+                    <rect x="680" y="120" width="120" height="100" rx="14" ry="14" />
+                    <rect x="530" y="250" width="130" height="70" rx="14" ry="14" />
+                  </g>
+                  <g fill="#e2e8f0" font-family="Inter, 'Segoe UI', sans-serif" font-size="14">
+                    <text text-anchor="middle">
+                      <tspan x="100" y="166">Bandpass</tspan>
+                      <tspan x="100" y="184">Filter + Iris</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="255" y="146">Wire-grid</tspan>
+                      <tspan x="255" y="164">Polarizer</tspan>
+                      <tspan x="255" y="182">Mount</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="425" y="98">Photodiode</tspan>
+                      <tspan x="425" y="116">Ladder (×16)</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="425" y="226">TIA &amp; CDS</tspan>
+                      <tspan x="425" y="244">Front-End</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="595" y="146">Anti-alias</tspan>
+                      <tspan x="595" y="164">Filter &amp;</tspan>
+                      <tspan x="595" y="182">AD7609 ADC</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="740" y="154">MAX1487</tspan>
+                      <tspan x="740" y="172">RS-485 Node</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="595" y="282">24&nbsp;V→9&nbsp;V</tspan>
+                      <tspan x="595" y="300">Regulation</tspan>
+                    </text>
+                  </g>
+                  <g stroke="#38bdf8" stroke-width="2" stroke-linecap="round" fill="none">
+                    <path d="M160 170H190" />
+                    <path d="M320 170H350" />
+                    <path d="M500 170H530" />
+                    <path d="M660 170H680" />
+                    <path d="M425 160V190" />
+                    <path d="M595 230V250" />
+                    <path d="M100 130V90H255V90" />
+                    <path d="M255 90V60H425V60" />
+                    <path d="M425 300H530" />
+                    <path d="M740 220V260H660" />
+                  </g>
+                  <g fill="#94a3b8" font-family="Inter, 'Segoe UI', sans-serif" font-size="12">
+                    <text text-anchor="middle">
+                      <tspan x="120" y="118">FC/APC input</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="300" y="208">Polarization alignment</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="425" y="152">Summed channels</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="595" y="206">1&nbsp;kHz cutoff</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="700" y="214">RS-485 trunk</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="595" y="322">Common 0&nbsp;V reference</tspan>
+                    </text>
+                  </g>
+                  <g fill="#38bdf8" stroke="#0f172a" stroke-width="1.5">
+                    <circle cx="190" cy="170" r="4" />
+                    <circle cx="350" cy="170" r="4" />
+                    <circle cx="530" cy="170" r="4" />
+                    <circle cx="680" cy="170" r="4" />
+                    <circle cx="425" cy="190" r="4" />
+                    <circle cx="595" cy="250" r="4" />
+                    <circle cx="740" cy="220" r="4" />
+                  </g>
+                </svg>
+                <figcaption>
+                  Figure&nbsp;R.1 — Optical filtering and synchronous detection stages inside a single
+                  pole prior to RS-485 transport back to the communication hub.
+                </figcaption>
+              </figure>
+              <div class="bom-table-wrapper">
+                <table class="bom-table" aria-describedby="schematic-desc-receiver">
+                  <caption>Receiver subsystem BOM</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Part number</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Tolerance / Rating</th>
+                      <th scope="col">Vendor reference</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>FBH532-10</td>
+                      <td>532&nbsp;nm bandpass filter, 10&nbsp;nm FWHM, Ø25&nbsp;mm</td>
+                      <td>4</td>
+                      <td>±0.5&nbsp;nm center, &gt;OD4 blocking</td>
+                      <td><a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=FBH532-10" target="_blank" rel="noreferrer">Thorlabs</a></td>
+                    </tr>
+                    <tr>
+                      <td>WP25M-UB</td>
+                      <td>Wire-grid polarizer, 400–700&nbsp;nm, Ø25&nbsp;mm</td>
+                      <td>4</td>
+                      <td>&gt;1000:1 extinction ratio</td>
+                      <td><a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=WP25M-UB" target="_blank" rel="noreferrer">Thorlabs</a></td>
+                    </tr>
+                    <tr>
+                      <td>SM1D12C</td>
+                      <td>SM1-threaded iris diaphragm, 0.8–12&nbsp;mm aperture</td>
+                      <td>4</td>
+                      <td>Graduated to 0.2&nbsp;mm</td>
+                      <td><a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=SM1D12C" target="_blank" rel="noreferrer">Thorlabs</a></td>
+                    </tr>
+                    <tr>
+                      <td>S1227-33BR</td>
+                      <td>Large-area silicon photodiode, 5.8&nbsp;nA dark current</td>
+                      <td>16 per pole</td>
+                      <td>Responsivity 0.27&nbsp;A/W @ 532&nbsp;nm</td>
+                      <td><a href="https://www.hamamatsu.com/us/en/product/optical-sensors/photodiodes/si-photodiode/large-active-area-type/s1227-33br.html" target="_blank" rel="noreferrer">Hamamatsu</a></td>
+                    </tr>
+                    <tr>
+                      <td>AD8616ARZ</td>
+                      <td>Dual 24&nbsp;MHz rail-to-rail op-amp for TIA</td>
+                      <td>8 per pole</td>
+                      <td>±0.2&nbsp;mV offset, 2.7–5.5&nbsp;V</td>
+                      <td><a href="https://www.analog.com/en/products/ad8616.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
+                    </tr>
+                    <tr>
+                      <td>AD7609BSTZ</td>
+                      <td>8-ch simultaneous-sampling 18-bit ADC</td>
+                      <td>1 per pole</td>
+                      <td>±10&nbsp;V input, 200&nbsp;kS/s aggregate</td>
+                      <td><a href="https://www.analog.com/en/products/ad7609.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
+                    </tr>
+                    <tr>
+                      <td>MAX1487ESA+</td>
+                      <td>Low-power RS-485/RS-422 transceiver</td>
+                      <td>1 per pole</td>
+                      <td>±15&nbsp;kV IEC 61000-4-2 ESD</td>
+                      <td><a href="https://www.analog.com/en/products/max1487.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
+                    </tr>
+                    <tr>
+                      <td>R-78C9.0-1.0</td>
+                      <td>24&nbsp;V to 9&nbsp;V switching regulator</td>
+                      <td>1 per pole</td>
+                      <td>±3% output, 1&nbsp;A</td>
+                      <td><a href="https://recom-power.com/en/products/dc-dc/r-78c.html" target="_blank" rel="noreferrer">RECOM</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+            <article class="bom-subsystem" id="bom-communications">
+              <h3>Communication &amp; Timing Backbone</h3>
+              <p>
+                The communication layer maintains synchronous modulation, collects demodulated
+                frames, and forwards telemetry upstream. Figure&nbsp;C.1 breaks out the hub carrier,
+                GNSS timing fan-out, Ethernet uplink, and the RS-485 multi-drop cabling shared across
+                all poles.
+              </p>
+              <figure class="schematic" aria-labelledby="schematic-title-communications">
+                <svg viewBox="0 0 820 340" role="img" aria-labelledby="schematic-title-communications schematic-desc-communications">
+                  <title id="schematic-title-communications">Communication subsystem schematic</title>
+                  <desc id="schematic-desc-communications">
+                    Diagram highlighting the STM32 hub controller with ADC mezzanine, GNSS 1PPS
+                    disciplining module, RS-485 multi-drop network to four poles, Ethernet uplink to
+                    the SCADA dashboard, and redundant 24 volt power distribution.
+                  </desc>
+                  <g fill="#0f172a" stroke="#38bdf8" stroke-width="2">
+                    <rect x="60" y="140" width="150" height="120" rx="14" ry="14" />
+                    <rect x="240" y="80" width="170" height="110" rx="14" ry="14" />
+                    <rect x="240" y="220" width="170" height="110" rx="14" ry="14" />
+                    <rect x="440" y="140" width="150" height="120" rx="14" ry="14" />
+                    <rect x="620" y="80" width="150" height="110" rx="14" ry="14" />
+                    <rect x="620" y="220" width="150" height="110" rx="14" ry="14" />
+                  </g>
+                  <g fill="#e2e8f0" font-family="Inter, 'Segoe UI', sans-serif" font-size="14">
+                    <text text-anchor="middle">
+                      <tspan x="135" y="182">24&nbsp;V Distribution</tspan>
+                      <tspan x="135" y="200">&amp; Surge Clamp</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="325" y="118">STM32F405</tspan>
+                      <tspan x="325" y="136">Carrier +</tspan>
+                      <tspan x="325" y="154">AD7609 Stack</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="325" y="258">GigE PHY &amp;</tspan>
+                      <tspan x="325" y="276">MQTT Gateway</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="515" y="182">GNSS 1PPS</tspan>
+                      <tspan x="515" y="200">Fan-out &amp;</tspan>
+                      <tspan x="515" y="218">10&nbsp;MHz VCXO</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="695" y="118">RS-485 Breakout</tspan>
+                      <tspan x="695" y="136">to Poles</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="695" y="258">Operations</tspan>
+                      <tspan x="695" y="276">Dashboard</tspan>
+                    </text>
+                  </g>
+                  <g stroke="#38bdf8" stroke-width="2" stroke-linecap="round" fill="none">
+                    <path d="M210 200H240" />
+                    <path d="M410 135H440" />
+                    <path d="M410 265H440" />
+                    <path d="M590 135H620" />
+                    <path d="M590 265H620" />
+                    <path d="M695 190V220" />
+                    <path d="M135 140V100H325V80" />
+                    <path d="M135 260V300H325V330" />
+                    <path d="M515 140V100H695V80" />
+                    <path d="M515 260V300H695V330" />
+                  </g>
+                  <g fill="#94a3b8" font-family="Inter, 'Segoe UI', sans-serif" font-size="12">
+                    <text text-anchor="middle">
+                      <tspan x="230" y="214">Isolated DC/DC rails</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="515" y="232">1PPS / 10&nbsp;MHz coax</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="695" y="166">4 × shielded pairs</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="695" y="304">TLS over Ethernet</tspan>
+                    </text>
+                    <text text-anchor="middle">
+                      <tspan x="325" y="72">Hub firmware sync</tspan>
+                    </text>
+                  </g>
+                  <g fill="#38bdf8" stroke="#0f172a" stroke-width="1.5">
+                    <circle cx="240" cy="200" r="4" />
+                    <circle cx="440" cy="135" r="4" />
+                    <circle cx="440" cy="265" r="4" />
+                    <circle cx="620" cy="135" r="4" />
+                    <circle cx="620" cy="265" r="4" />
+                    <circle cx="695" cy="220" r="4" />
+                  </g>
+                </svg>
+                <figcaption>
+                  Figure&nbsp;C.1 — Hub, timing, and networking stack highlighting synchronous links to
+                  the poles and encrypted telemetry upstream to operations.
+                </figcaption>
+              </figure>
+              <div class="bom-table-wrapper">
+                <table class="bom-table" aria-describedby="schematic-desc-communications">
+                  <caption>Communication subsystem BOM</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Part number</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Tolerance / Rating</th>
+                      <th scope="col">Vendor reference</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>NUCLEO-F405RG</td>
+                      <td>STM32F405 development board for hub control</td>
+                      <td>1</td>
+                      <td>168&nbsp;MHz MCU, 1&nbsp;MB flash</td>
+                      <td><a href="https://www.st.com/en/evaluation-tools/nucleo-f405rg.html" target="_blank" rel="noreferrer">STMicroelectronics</a></td>
+                    </tr>
+                    <tr>
+                      <td>AD7609BSTZ-6U</td>
+                      <td>Dual stacked 8-ch ADC mezzanine (custom carrier)</td>
+                      <td>1</td>
+                      <td>18-bit simultaneous sampling</td>
+                      <td><a href="https://www.analog.com/en/products/ad7609.html" target="_blank" rel="noreferrer">Analog Devices</a></td>
+                    </tr>
+                    <tr>
+                      <td>NEO-M9N-00B</td>
+                      <td>GNSS receiver with 1PPS output</td>
+                      <td>1</td>
+                      <td>±15&nbsp;ns 1PPS, L1/L5 bands</td>
+                      <td><a href="https://www.u-blox.com/en/product/neo-m9n-module" target="_blank" rel="noreferrer">u-blox</a></td>
+                    </tr>
+                    <tr>
+                      <td>PL602-10M</td>
+                      <td>10&nbsp;MHz OCXO with LVPECL fan-out</td>
+                      <td>1</td>
+                      <td>±0.2&nbsp;ppm, -40&nbsp;°C to 85&nbsp;°C</td>
+                      <td><a href="https://www.ndk.com/en/products/search/ocxo/1184249_1444.html" target="_blank" rel="noreferrer">NDK</a></td>
+                    </tr>
+                    <tr>
+                      <td>TM4C-RS485-HUB</td>
+                      <td>4-port isolated RS-485 backplane</td>
+                      <td>1</td>
+                      <td>±2.5&nbsp;kV isolation, 1&nbsp;Mbps</td>
+                      <td><a href="https://www.digikey.com/en/products/detail/texas-instruments/ISO3088DW/1713289" target="_blank" rel="noreferrer">DigiKey</a></td>
+                    </tr>
+                    <tr>
+                      <td>IKVM-24V150W</td>
+                      <td>24&nbsp;V 150&nbsp;W DIN-rail PSU with redundancy OR-ing</td>
+                      <td>1</td>
+                      <td>±1% regulation, 94% efficiency</td>
+                      <td><a href="https://www.meanwell.com/productPdf.aspx?i=521" target="_blank" rel="noreferrer">MEAN&nbsp;WELL</a></td>
+                    </tr>
+                    <tr>
+                      <td>GS305</td>
+                      <td>5-port Gigabit switch for telemetry uplink</td>
+                      <td>1</td>
+                      <td>802.3az energy efficient Ethernet</td>
+                      <td><a href="https://www.netgear.com/business/wired/switches/unmanaged/gs305/" target="_blank" rel="noreferrer">Netgear</a></td>
+                    </tr>
+                    <tr>
+                      <td>Belden 3106A</td>
+                      <td>Shielded twisted pair for RS-485 trunk</td>
+                      <td>100&nbsp;m</td>
+                      <td>24&nbsp;AWG, 120&nbsp;Ω ±10%</td>
+                      <td><a href="https://www.belden.com/products/3106A" target="_blank" rel="noreferrer">Belden</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
           </div>
           <div class="bom-specs">
             <article>
               <h3>Communication Protocols</h3>
+              <p>
+                Refer to Figure&nbsp;C.1 for the physical topology behind these links and to the
+                communication BOM above for the exact hardware to terminate each span.
+              </p>
               <ul>
                 <li>
                   <strong>RS-485 multi-drop bus:</strong> Half-duplex 921.6&nbsp;kbps (8N1) with
@@ -1646,7 +2092,11 @@
             </article>
             <article>
               <h3>Power Budget</h3>
-              <p>The minimal kit runs from a single 24&nbsp;V&nbsp;DC source or field battery pack.</p>
+              <p>
+                The minimal kit runs from a single 24&nbsp;V&nbsp;DC source or field battery pack. Power
+                entry, conditioning, and regulation stages are depicted in Figures&nbsp;T.1, R.1, and
+                C.1 for reference during integration.
+              </p>
               <ul>
                 <li><strong>Laser head:</strong> 9.5&nbsp;W typical, 14&nbsp;W peak during TEC warm-up.</li>
                 <li><strong>Sensor pole:</strong> 1.3&nbsp;W @ 9&nbsp;V for LDR bias, analog front end, and RS-485 node.</li>
@@ -1659,6 +2109,10 @@
             </article>
             <article>
               <h3>Clock &amp; Timing Sources</h3>
+              <p>
+                Figure&nbsp;C.1 also annotates the GNSS timing fan-out so installers can trace the 1PPS
+                and 10&nbsp;MHz discipline points alongside the communication BOM part numbers.
+              </p>
               <ul>
                 <li><strong>Hub MCU clock:</strong> 168&nbsp;MHz core with 84&nbsp;MHz timer driving dual 10&nbsp;kHz PWM modulators.</li>
                 <li><strong>ADC sampling:</strong> 200&nbsp;kS/s aggregate per pole, performing four-phase synchronous demodulation into 24-bit accumulators.</li>
