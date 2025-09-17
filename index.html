@@ -447,12 +447,21 @@
       }
 
       .chart {
+        position: relative;
         background: var(--surface-alt);
         border: 1px solid var(--surface-border-subtle);
         border-radius: 18px;
         padding: 1.4rem 1.6rem;
         display: grid;
         gap: 0.9rem;
+        overflow: hidden;
+        cursor: default;
+      }
+
+      .chart:focus,
+      .chart:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
       }
 
       .chart svg {
@@ -466,6 +475,50 @@
         font-size: 0.95rem;
         color: var(--text-tertiary);
         line-height: 1.6;
+      }
+
+      .chart-detail {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.6rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.75rem;
+        background: linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.94),
+          rgba(15, 23, 42, 0.96)
+        );
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        line-height: 1.65;
+        text-align: left;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+
+      .chart-detail h4 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .chart-detail p {
+        margin: 0;
+        color: var(--text-soft);
+      }
+
+      .chart:hover .chart-detail,
+      .chart:focus .chart-detail,
+      .chart:focus-visible .chart-detail {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
       }
 
       .chart-legend {
@@ -952,7 +1005,7 @@
           open-air daylight deployments.
         </p>
         <div class="chart-grid">
-          <figure class="chart">
+          <figure class="chart" tabindex="0">
             <svg viewBox="0 0 360 220" role="img" aria-labelledby="range-reliability">
               <title id="range-reliability">Relative signal-to-noise versus bandpass width</title>
               <defs>
@@ -1000,8 +1053,16 @@
               Narrowing the bandpass from 25&nbsp;nm to 5&nbsp;nm boosts the lock-in signal by
               nearly 30&nbsp;dB, overwhelming daylight leakage even before polarization stages.
             </figcaption>
+            <div class="chart-detail">
+              <h4>We need more detail on the filter stack</h4>
+              <p>
+                Ask the optics vendor for passband drift data and service intervals so crews
+                understand how a 5&nbsp;nm filter maintains the 30&nbsp;dB daylight advantage in
+                real projects.
+              </p>
+            </div>
           </figure>
-          <figure class="chart">
+          <figure class="chart" tabindex="0">
             <svg viewBox="0 0 360 220" role="img" aria-labelledby="power-budget">
               <title id="power-budget">Ambient suppression contributions by mitigation stage</title>
               <rect width="360" height="220" fill="rgba(15, 23, 42, 0.6)" rx="14" />
@@ -1032,8 +1093,15 @@
               yields over 60&nbsp;dB of ambient suppression, leaving ample margin for electronics
               noise and future upgrades.
             </figcaption>
+            <div class="chart-detail">
+              <h4>Clarify each suppression step</h4>
+              <p>
+                We still need lab notes that quantify how much rejection each stage adds plus any
+                photos that show the baffling and polarizer alignment for field crews.
+              </p>
+            </div>
           </figure>
-          <figure class="chart">
+          <figure class="chart" tabindex="0">
             <svg viewBox="0 0 360 220" role="img" aria-labelledby="telemetry">
               <title id="telemetry">Data reduction through synchronous detection pipeline</title>
               <rect width="360" height="220" fill="rgba(15, 23, 42, 0.6)" rx="14" />
@@ -1060,6 +1128,14 @@
               Synchronous demodulation and averaging collapse multi-megahertz LDR samples into
               50&nbsp;Hz height updates that control crews can act on immediately in the field.
             </figcaption>
+            <div class="chart-detail">
+              <h4>Follow up on the data pipeline</h4>
+              <p>
+                Request firmware documentation that explains sampling rates, controller limits, and
+                how the 50&nbsp;Hz updates integrate with the field tablets so non-technical staff
+                can brief the team.
+              </p>
+            </div>
           </figure>
         </div>
       </section>
