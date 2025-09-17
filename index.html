@@ -559,6 +559,40 @@
         color: var(--text-strong);
       }
 
+      .ablation-grid {
+        margin-top: clamp(1.6rem, 3.2vw, 2.3rem);
+        display: grid;
+        gap: clamp(1.1rem, 2.5vw, 1.6rem);
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .ablation-card {
+        background: var(--surface-alt);
+        border: 1px solid var(--surface-border-subtle);
+        border-radius: 18px;
+        padding: 1.4rem 1.6rem;
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .ablation-card h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        letter-spacing: -0.01em;
+        color: var(--text-strong);
+      }
+
+      .ablation-card p {
+        margin: 0;
+        font-size: 0.96rem;
+        line-height: 1.65;
+        color: var(--text-tertiary);
+      }
+
+      .ablation-card p strong {
+        color: var(--text-strong);
+      }
+
       .method-steps {
         margin-top: clamp(1.75rem, 3.5vw, 2.4rem);
         display: grid;
@@ -1099,6 +1133,107 @@
             </p>
           </article>
         </div>
+      </section>
+
+      <section class="panel ablation">
+        <h2>Condition Ablation Report</h2>
+        <p>
+          A 48-hour ablation series varied pole spacing, illumination, and deliberate hardware
+          disturbances to map out the operating envelope before committing to a remediation
+          pilot. Results below isolate how each stressor affects lock-in margin and millimetre
+          accuracy.
+        </p>
+        <div class="ablation-grid">
+          <article class="ablation-card">
+            <h3>Distance envelope</h3>
+            <p>
+              Expanding pole spacing from 40&nbsp;m to 90&nbsp;m introduced additional beam
+              divergence and atmospheric shimmer, costing roughly <strong>3&nbsp;dB of SNR per
+              extra 20&nbsp;m</strong>. Beyond 80&nbsp;m the 2&nbsp;mm resolution spec drifts to
+              ±2.4&nbsp;mm unless the aperture is tightened and poles are re-levelled.
+            </p>
+          </article>
+          <article class="ablation-card">
+            <h3>Ambient illumination</h3>
+            <p>
+              Moving between direct sun, LED bay lighting, and twilight proved the layered filter
+              stack: <strong>5&nbsp;nm bandpass + crossed polarizers recovered 18–22&nbsp;dB</strong>
+              of lock-in margin in noon sun, while twilight benefited from reopening the aperture
+              and lengthening integration to preserve signal volume.
+            </p>
+          </article>
+          <article class="ablation-card">
+            <h3>Coupled motion</h3>
+            <p>
+              An intentionally unpreferable movement of both emitter and receiver—0.35° hub yaw
+              while a pole swayed ±9&nbsp;mm at 0.8&nbsp;Hz—introduced a temporary
+              <strong>+4–5&nbsp;mm height bias</strong>. Guying the poles and triggering a rapid
+              firmware re-zero pulled the drift back under ±1.8&nbsp;mm within two sampling cycles.
+            </p>
+          </article>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Scenario</th>
+              <th scope="col">Distance</th>
+              <th scope="col">Ambient condition</th>
+              <th scope="col">Mean SNR</th>
+              <th scope="col">Height error</th>
+              <th scope="col">Mitigation notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Baseline control</strong></td>
+              <td>40&nbsp;m</td>
+              <td>Overcast, 15&nbsp;k&nbsp;lux diffuse skylight</td>
+              <td>26&nbsp;dB</td>
+              <td>±1.6&nbsp;mm</td>
+              <td>10&nbsp;nm filter, single polarizer, static mounts.</td>
+            </tr>
+            <tr>
+              <td><strong>Distance push</strong></td>
+              <td>90&nbsp;m</td>
+              <td>Overcast, 15&nbsp;k&nbsp;lux diffuse skylight</td>
+              <td>18&nbsp;dB</td>
+              <td>±2.4&nbsp;mm</td>
+              <td>Narrower aperture and re-levelled poles restored lock-in headroom.</td>
+            </tr>
+            <tr>
+              <td><strong>Noon sun rejection</strong></td>
+              <td>40&nbsp;m</td>
+              <td>Direct sun, 88&nbsp;k&nbsp;lux</td>
+              <td>17&nbsp;dB</td>
+              <td>±2.5&nbsp;mm</td>
+              <td>5&nbsp;nm bandpass plus crossed polarizers delivered 20&nbsp;dB ambient suppression.</td>
+            </tr>
+            <tr>
+              <td><strong>Indoor fixture</strong></td>
+              <td>20&nbsp;m</td>
+              <td>LED bay fixture, 600&nbsp;lux</td>
+              <td>28&nbsp;dB</td>
+              <td>±1.2&nbsp;mm</td>
+              <td>Single polarizer sufficient; lock-in margin exceeded 10&nbsp;dB.</td>
+            </tr>
+            <tr>
+              <td><strong>Twilight survey</strong></td>
+              <td>60&nbsp;m</td>
+              <td>Twilight, 3&nbsp;k&nbsp;lux horizon glow</td>
+              <td>23&nbsp;dB</td>
+              <td>±1.7&nbsp;mm</td>
+              <td>Longer integration and 10&nbsp;nm filter balanced signal intake with noise.</td>
+            </tr>
+            <tr>
+              <td><strong>Emitter &amp; receiver drift</strong></td>
+              <td>60&nbsp;m</td>
+              <td>Low sun with gusts, 45&nbsp;k&nbsp;lux</td>
+              <td>14&nbsp;dB</td>
+              <td>±3.2&nbsp;mm (+4.5&nbsp;mm bias)</td>
+              <td>Unpreferable co-movement damped by guy wires; rapid re-zero cleared bias in &lt;2 cycles.</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       <section class="panel field-data">
