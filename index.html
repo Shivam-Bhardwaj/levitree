@@ -559,6 +559,7 @@
       }
 
       .bom-subsections {
+
         margin-top: clamp(1.75rem, 3.5vw, 2.3rem);
         display: grid;
         gap: clamp(2rem, 4vw, 2.75rem);
@@ -566,6 +567,61 @@
       }
 
       .bom-subsystem {
+        display: grid;
+        gap: clamp(1.4rem, 3vw, 2rem);
+
+      }
+
+      .bom-tablist {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+      }
+
+      .bom-tab {
+        appearance: none;
+        border: 1px solid var(--surface-border-subtle);
+        background: var(--surface-alt);
+        color: var(--text-tertiary);
+        border-radius: 999px;
+        padding: 0.65rem 1.35rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: color 150ms ease, background 150ms ease, border-color 150ms ease,
+          box-shadow 150ms ease, transform 150ms ease;
+        cursor: pointer;
+      }
+
+      .bom-tab:hover,
+      .bom-tab:focus-visible {
+        border-color: var(--accent-border);
+        color: var(--accent);
+      }
+
+      .bom-tab:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .bom-tab[aria-selected="true"] {
+        background: linear-gradient(135deg, var(--accent-soft), rgba(56, 189, 248, 0.12));
+        border-color: var(--accent-border);
+        color: var(--accent);
+        box-shadow: 0 16px 32px -22px rgba(56, 189, 248, 0.8);
+      }
+
+      .bom-tab[aria-selected="true"]:hover {
+        transform: translateY(-1px);
+      }
+
+      .bom-panels {
+        display: grid;
+        gap: clamp(1.6rem, 3.2vw, 2.2rem);
+      }
+
+      .bom-tabpanel {
         display: grid;
         gap: clamp(1.4rem, 3vw, 2rem);
       }
@@ -1583,6 +1639,7 @@
         </p>
         <div class="bom-subsections">
           <article class="bom-subsystem" id="bom-transmitter">
+
               <h3>Transmitter: Laser Emission &amp; Conditioning</h3>
               <p>
                 The transmitter package gates the 532&nbsp;nm DPSS laser, stabilizes its thermal load,
@@ -1739,6 +1796,7 @@
               </div>
             </article>
           <article class="bom-subsystem" id="bom-receiver">
+
               <h3>Receiver: Sensor Pole Optics &amp; Front-End</h3>
               <p>
                 Each pole combines optical rejection, synchronous detection, and balanced data
@@ -1916,6 +1974,7 @@
               </div>
           </article>
           <article class="bom-subsystem" id="bom-communications">
+
               <h3>Communication &amp; Timing Backbone</h3>
               <p>
                 The communication layer maintains synchronous modulation, collects demodulated
@@ -2082,7 +2141,9 @@
                   </tbody>
                 </table>
               </div>
-          </article>
+
+            </article>
+          </div>
         </div>
         <div class="bom-specs">
           <article>
@@ -2287,8 +2348,110 @@
             </p>
           </li>
         </ul>
-      </section>
-    </main>
+    </section>
+  </main>
+
+    <script>
+      (function () {
+        const tabContainers = document.querySelectorAll("[data-tabs]");
+        tabContainers.forEach((container) => {
+          const tabs = Array.from(container.querySelectorAll('[role="tab"]'));
+          if (tabs.length === 0) {
+            return;
+          }
+
+          const panels = tabs
+            .map((tab) => {
+              const controls = tab.getAttribute("aria-controls");
+              return controls ? container.querySelector(`#${controls}`) : null;
+            })
+            .filter((panel) => panel);
+
+          if (panels.length === 0) {
+            return;
+          }
+
+          let activeTab =
+            tabs.find((tab) => tab.getAttribute("aria-selected") === "true") ||
+            tabs[0];
+
+          const activate = (tab, { focus = true } = {}) => {
+            if (!tab) {
+              return;
+            }
+
+            activeTab = tab;
+
+            tabs.forEach((currentTab) => {
+              const isActive = currentTab === tab;
+              currentTab.setAttribute("aria-selected", String(isActive));
+              currentTab.setAttribute("tabindex", isActive ? "0" : "-1");
+              const controls = currentTab.getAttribute("aria-controls");
+              const panel = controls
+                ? container.querySelector(`#${controls}`)
+                : null;
+              if (panel) {
+                if (isActive) {
+                  panel.removeAttribute("hidden");
+                } else {
+                  panel.setAttribute("hidden", "");
+                }
+              }
+            });
+
+            if (focus) {
+              tab.focus();
+            }
+          };
+
+          activate(activeTab, { focus: false });
+
+          tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+              activate(tab, { focus: false });
+            });
+
+            tab.addEventListener("keydown", (event) => {
+              const { key } = event;
+              switch (key) {
+                case "ArrowLeft":
+                case "ArrowUp":
+                case "ArrowRight":
+                case "ArrowDown":
+                case "Home":
+                case "End":
+                  event.preventDefault();
+                  break;
+                default:
+                  return;
+              }
+
+              const currentIndex = tabs.indexOf(tab);
+              if (currentIndex === -1) {
+                return;
+              }
+
+              let nextIndex = currentIndex;
+
+              if (key === "Home") {
+                nextIndex = 0;
+              } else if (key === "End") {
+                nextIndex = tabs.length - 1;
+              } else if (key === "ArrowLeft" || key === "ArrowUp") {
+                nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+              } else if (key === "ArrowRight" || key === "ArrowDown") {
+                nextIndex = (currentIndex + 1) % tabs.length;
+              }
+
+              const nextTab = tabs[nextIndex];
+              if (nextTab) {
+                activate(nextTab);
+              }
+            });
+          });
+        });
+      })();
+    </script>
 
     <script>
       (function () {
